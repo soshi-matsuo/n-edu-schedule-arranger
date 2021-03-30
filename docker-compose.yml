@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  app:
+    image: node:12-alpine
+    command: sh -c "yarn install && yarn start"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - 3000:3000
+    environment:
+      GITHUB_CLIENT_ID: dummyClient
+      GITHUB_CLIENT_SECRET: dummySecret
+      GITHUB_CALLBACK_URL: http://localhost:3000/auth/github/callback
+      SESSION_SECRET: dummySessionSecret
+  db:
+    image: postgres:13.2-alpine
+    volumes:
+      - n-edu-psql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: schedule_arranger
+
+volumes:
+  n-edu-psql:
